@@ -55,10 +55,10 @@
         </div>
             <div class="col-md-4 mb-3">
                 <div class="card";>
-                <img src="https://source.unsplash.com/1600x900/?anime" class="card-img-top" alt="gambar">
+                <img src="https://source.unsplash.com/1600x900/?city" class="card-img-top" alt="gambar">
                     <div class="card-body">
                     <a href="" class="text-decoration-none text-dark">
-                        <h5 class="card-title">Anime
+                        <h5 class="card-title">City
                         </h5>
                     </a>
                 </div>
@@ -66,7 +66,7 @@
         </div>
            <div class="col-md-4 mb-3">
                 <div class="card";>
-                <img src="https://source.unsplash.com/1600x900/?cool" class="card-img-top" alt="gambar">
+                <img src="https://source.unsplash.com/1600x900/?fireworks" class="card-img-top" alt="gambar">
                     <div class="card-body">
                     <a href="" class="text-decoration-none text-dark">
                         <h5 class="card-title">Cool</h5>
