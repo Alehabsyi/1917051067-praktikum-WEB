@@ -219,7 +219,7 @@
                         Form Tambah Post
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form action="admin/posts/store" method="POST">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
