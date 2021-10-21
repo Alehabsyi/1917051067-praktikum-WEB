@@ -3,18 +3,83 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\PostModel;
 
 class AdminPostsController extends BaseController
 {
     public function index()
     {
-        return view('posts/index');
+        $PostModel = model('PostModel');
+        $data = [
+            'posts' => $PostModel->findAll()
+        ];
+        return view("posts/index", $data);
     }
     public function create()
     {
-        return view('posts/create');
+        session();
+        $data = [
+            'validation' => \Config\Services::validation()
+        ];
+        return view("posts/create", $data);
     }
     public function store()
     {
+        $valid = $this->validate([
+            "judul" => [
+                "label" => "judul",
+                "rules" => "required",
+                "errors" => [
+                    "required" => "{field} Harus Diisi",
+                ]
+            ],
+            "slug" => [
+                "label" => "slug",
+                "rules" => "required|is_unique[posts.slug]",
+                "errors" => [
+                    "required" => "{field} Harus Diisi",
+                    "is_unique" => "{field} Sudah Ada !",
+                ]
+            ],
+            "kategori" => [
+                "label" => "kategori",
+                "rules" => "required",
+                "errors" => [
+                    "required" => "{field} Harus Diisi",
+                ]
+            ],
+            "author" => [
+                "label" => "author",
+                "rules" => "required",
+                "errors" => [
+                    "required" => "{field} Harus Diisi",
+                ]
+            ],
+            "deskripsi" => [
+                "label" => "deskripsi",
+                "rules" => "required",
+                "errors" => [
+                    "required" => "{field} Harus Diisi",
+                ]
+
+            ]
+        ]);
+        if ($valid) {
+            $data = [
+                'judul' => $this->request->getvar('judul'),
+                'slug' => $this->request->getvar('slug'),
+                'kategori' => $this->request->getvar('kategori'),
+                'author' => $this->request->getvar('author'),
+                'deskripsi' => $this->request->getvar('deskripsi'),
+            ];
+            $PostModel = model('PostModel');
+            $PostModel->insert($data);
+            return redirect()->to(base_url('admin/posts'));
+        } else {
+            return redirect()->to(base_url('admin/posts/create'))->withInput()->with(
+                'validation',
+                $this->validator
+            );
+        }
     }
 }
