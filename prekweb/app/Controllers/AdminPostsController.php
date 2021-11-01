@@ -7,6 +7,11 @@ use App\Models\PostModel;
 
 class AdminPostsController extends BaseController
 {
+    public function __construct()
+    {
+        $this->PostModel = new PostModel();
+    }
+
     public function index()
     {
         $PostModel = model('PostModel');
@@ -22,6 +27,35 @@ class AdminPostsController extends BaseController
             'validation' => \Config\Services::validation()
         ];
         return view("posts/create", $data);
+    }
+    public function delete($post_id)
+    {
+        $this->PostModel->delete($post_id);
+        return redirect()->to(base_url('admin/posts'));
+    }
+
+    public function edit($slug)
+    {
+        session();
+        $data = [
+            'validation' => \Config\Services::validation(),
+            'posts' => $this->PostModel->where(['slug' => $slug])->first()
+        ];
+        return view('posts/edit', $data);
+    }
+    public function saveEdit($post_id)
+    {
+        $request = service('request');
+        $this->PostModel->save([
+            'post_id' => $post_id,
+            'judul' => $request->getVar('judul'),
+            'slug' => $request->getVar('slug'),
+            'kategori' => $request->getVar('kategori'),
+            'author' => $request->getVar('author'),
+            'deskripsi' => $request->getVar('deskripsi')
+        ]);
+
+        return redirect()->to(base_url('admin/posts'));
     }
     public function store()
     {
